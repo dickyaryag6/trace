@@ -13,6 +13,7 @@ type Tracer interface {
 type tracer struct {
 	out io.Writer
 }
+
 func (t *tracer) Trace(a ...interface{}) {
 	// fmt.Print(a...)
 	
@@ -23,7 +24,15 @@ func (t *tracer) Trace(a ...interface{}) {
 	fmt.Fprintln(t.out)
 }
 
+type nilTracer struct {}
+
+func (t *nilTracer) Trace(a ...interface{}) {}
+
 func New(w io.Writer) Tracer {
 	//create object tracer dengan atribut out
 	return &tracer{out: w}
+}
+
+func Off() Tracer {
+	return &nilTracer{}
 }
